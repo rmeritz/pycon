@@ -1,12 +1,30 @@
-- Django Forms:
-  + Validation defaults all match the DB validations automatically
-  + Can override the default validations that are just on the model
-  ... ? I don't really understand how/where validations work in rails
+# jobs/forms.py
 
-  Django Forms:
-  1) preparing and restructuring data ready for rendering
-  2) creating HTML forms for the data
-  3) receiving and processing submitted forms and data from the client
+from django import forms
+from ..craz
+
+
+class JobForm(forms.ModelForm):
+    class Meta:
+        model = EquityCampaign
+        fields = ["name", "description", "start_date"]
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if self._is_name_obscence(name):
+            raise forms.ValidationError('You may not choose an obscene name')
+        return email
+
+    def __init__(self, *args, **kwargs):
+        super(JobForm, self).__init__(*args, **kwargs)
+        self.fields["name"].widget = MyCrazyTextInput()
+
+
+### Notes:
+# * Django Forms handle many aspects of handling data in one place
+# 1) preparing and restructuring data ready for rendering
+# 2) creating HTML forms for the data
+# 3) receiving and processing submitted forms and data from the client
 
 >>> f = ContactForm()
 >>> f.as_ul()
@@ -15,12 +33,6 @@ u'<li><label for="id_subject">Subject:</label> <input id="id_subject" type="text
   {{ form.as_p }}
 
   {{ form.as_ul }}
-
-Rails Forms:
-  - http://guides.rubyonrails.org/form_helpers.html
-  - https://github.com/plataformatec/simple_form
-  - Simple Form
-
 
 <form enctype="{% block form-page-enctype %}{% endblock %}" action="{% block form-page-action %}{% endblock %}" method="post" data-selenium="page-form">
     {% csrf_token %}
