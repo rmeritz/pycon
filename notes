@@ -13,12 +13,12 @@ Naming
 Should I maybe should examples of all these things?
 
 - Rails vs. Django
-- Models vs. Models
+- Models vs. Models *** Done
 - Controllers vs. Views ***
 - Views vs. Templates
 - (Html Forms) vs. Forms ***
 - (Nothing) vs. Widgets ***
-- Migrations vs. Migrations ***
+- Migrations vs. Migrations *** Done
 - Activerecord vs. Django ORM ?????
 - Rack vs. ?
 - Jobs vs. Tasks ?
@@ -31,31 +31,6 @@ Should I maybe should examples of all these things?
 
 *** - Things that are maybe worth talking more about.
 
-Some bigger structural things that feel really different:
---------------------------------------------------------
-
-- schema.rb vs. seeing the code that chooses model relations The close coupling btw models
-
-- Seperate Class for the Manager (default .objects) your model API is not
-  polluted with all of the ORM API magic
-
-- Class Based Views:
-  http://ccbv.co.uk/
-
-- Django Forms:
-  + Validation defaults all match the DB validations automatically
-  + Can override the default validations that are just on the model
-  ... ? I don't really understand how/where validations work in rails
-  +
-
-- Django Widgets:
- + reusable and can be packaged easilly in a third party library
- - hard to see from the html what the form is actually doing
- - can be hard for a non-programming designer to get there hands around things
-
-
-- The default Rails orm is feels lighter weight and closer to sql, but thats not
-  really true maybe
 
 Positive things to take from Python/Django:
 -------------------------------------------
@@ -102,6 +77,7 @@ vs. one?...
 5. Readablity
 - long descriptive names
 - ex. 1.month.ago
+- super
 
 Notes
 -----
