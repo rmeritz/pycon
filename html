@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <body>
+        <h1>New Job</h1>
+
+        <form action="/jobs" method="post">
+            <input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="JCFnjygmSzD5/+fter0ZwLsbTE4qQTs9CptOvfI41/GGwRZbNBh+z9fSc4fjQdnnCRCqUQWxH+Ios/T7kwOPHQ==" />
+
+
+            <div class="form-inputs">
+            <div class="input string optional job_name"><label class="string optional" for="job_name">Name</label><input class="string optional" type="text" name="job[name]" id="job_name" /></div>
+            <div class="input text optional job_description"><label class="text optional" for="job_description">Description</label><textarea class="text optional" name="job[description]" id="job_description">
+</textarea></div>
+            <div class="input string optional job_company_name"><label class="string optional" for="job_company_name">Company name</label><input class="string optional" type="text" name="job[company_name]" id="job_company_name" /></div>
+
+          ...
+
+            <div class="form-actions">
+                <input type="submit" name="commit" value="Create Job" class="button" />
+            </div>
+      </form>
+
+<a href="/jobs">Back</a>
+  </body>
+
+</html>

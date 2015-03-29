@@ -22,6 +22,7 @@ from django.db.models import Manager
 
 
 class JobManager(Manager):
+    #TODO: write to match publiushed
     def get_queryset(self):
         return super(JobManager, self).get_queryset().filter(published=True)
 

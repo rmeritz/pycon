@@ -1,0 +1,23 @@
+Walk through of the app from the top down, giving notes an oppions as I go
+through:
+
+X Start from the frontend and work down actually showing a form (screenshot)
+  - form.png
+X Actually show html
+  - html
+X Show view/template in both
+  - view.rb
+  - view.py
+X Then routes
+  - routes.rb
+  - routes.py
+X Then view/controller
+  - controller.rb
+  - controller.py
+X Then forms models
+  - forms.rb
+  - forms.py
+X models
+  - models.rb
+  - models.py
+X migrations
