@@ -1,0 +1,36 @@
+/home/rebecca/skill-and-love/
+├── app
+│   ├── controllers
+│   │   ├── application_controller.rb
+│   │   ├── concerns
+│   │   └── jobs_controller.rb
+│   ├── helpers
+│   │   └── application_helper.rb
+│   ├── models
+│   │   ├── concerns
+│   │   └── job.rb
+│   └── views
+│       ├── jobs
+│       │   ├── edit.html.erb
+│       │   ├── _form.html.erb
+│       │   ├── index.html.erb
+│       │   ├── new.html.erb
+│       │   └── show.html.erb
+│       ├── layouts
+│       │   └── application.html.erb
+
+├── skill_and_love
+├── urls.py
+│   ├── jobs
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── applicatants
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── templates
+│   │   ├── index.html
+│   │   └── create_jobs.html

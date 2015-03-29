@@ -58,6 +58,55 @@
 
                           <section>
                             <pre>
+                              <code class="">
+
+├── app
+│   ├── controllers
+│   │   ├── application_controller.rb
+│   │   ├── concerns
+│   │   └── jobs_controller.rb
+│   ├── helpers
+│   │   └── application_helper.rb
+│   ├── models
+│   │   ├── concerns
+│   │   └── job.rb
+│   └── views
+│       ├── jobs
+│       │   ├── edit.html.erb
+│       │   ├── _form.html.erb
+│       │   ├── index.html.erb
+│       │   ├── new.html.erb
+│       │   └── show.html.erb
+│       ├── layouts
+│       │   └── application.html.erb
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="">
+├── skill_and_love
+├── urls.py
+│   ├── jobs
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── applicatants
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── templates
+│   │   ├── index.html
+│   │   └── create_jobs.html
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
                               <code class="html">
 &lt;form action="/jobs" method="post"&gt;
 
@@ -81,15 +130,15 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name, as: :string  %>
-    <%= f.input :description %>
-    <%= f.input :company_name, as: :string %>
-    <%= f.input :url, as: :url %>
-    <%= f.input :start_date, as: :date %>
+    <%= f.text_field :name %>
+    <%= f.text_area :description %>
+    <%= f.text_field :company_name %>
+    <%= f.text_field :url %>
+    <%= f.date_field :start_date %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.submit %>
   </div>
 <% end %>
                               </code>
@@ -123,8 +172,7 @@
                             <pre>
                               <code class="ruby">
 Rails.application.routes.draw do
-  resources :jobs
-  root to: 'jobs#index'
+  resources :jobs, only: :create
 end
                               </code>
                             </pre>
@@ -259,11 +307,33 @@ class JobCreateForm(forms.ModelForm):
 
                           <section>
                             <h3>
+app/controllers/jobs_controller.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class JobsController < ApplicationController
+  def create
+    @job = Job.new(job_params)
+    @job.end_date = @job.start_date + 30.days
+
+    if @job.save
+      redirect_to @job, notice: 'Job was successfully created.'
+    else
+      render :new
+    end
+  end
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
 lib/validators/obscene_validator.rb
                             </h3>
                             <pre>
                               <code class="ruby">
-class ObseneValidator < ActiveModel::Validator
+class ObsceneValidator < ActiveModel::Validator
   def validate(record)
     if record.name.obscene?
       record.errors[:name] << 'No dirty names!'
@@ -332,7 +402,7 @@ app/models/job.rb
                             <pre>
                               <code class="ruby">
 class Job < ActiveRecord::Base
-  validates_with ObseneValidator
+  validates_with ObsceneValidator
   scope :published { where(published: true) }
 end
 
@@ -345,6 +415,7 @@ end
                               <code class="ruby">
 >>> Job.find(2)
 >>> Job.all
+>>> Job.published
                               </code>
                             </pre>
                           </section>
@@ -389,9 +460,8 @@ from django.db.models import Manager
 
 
 class JobManager(Manager):
-    #TODO: write to match publiushed
-    def get_queryset(self):
-        return super(JobManager, self).get_queryset().filter(published=True)
+    def published(self):
+        return self.filter(published=True)
                               </code>
                             </pre>
                           </section>
@@ -402,12 +472,17 @@ class JobManager(Manager):
 
 >>> Job.objects.get(id=2)
 >>> Job.objects.all()
+>>> Job.objects.published()
                               </code>
                             </pre>
                           </section>
 
                           <section>
-                            <h1>Fin<h1>
+                            <h2>rebecca.meritz.com/pycon</h2>
+                            <h2>@rmeritz</h2>
+
+                            <h2>pycon.se</h2>
+                            <h2>May 12-13, 2015</h2>
                           </section>
 			</div>
 
