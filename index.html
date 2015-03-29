@@ -106,6 +106,16 @@
                           </section>
 
                           <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Rails is simpler</li>
+                                <li>Django has smaller conceptal units</li>
+                                <li>Django solves the lib problem</li>
+                                <li>Django can have giant models files</li>
+                            </ul>
+                          </section>
+
+                          <section>
                             <pre>
                               <code class="html">
 &lt;form action="/jobs" method="post"&gt;
@@ -166,6 +176,14 @@
                           </section>
 
                           <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Rails is easier for a designer to change</li>
+                                <li>Django autodiscovers sensible form widgets</li>
+                            </ul>
+                          </section>
+
+                          <section>
                             <h3>
                               config/routes.rb
                             </h3>
@@ -212,6 +230,15 @@ urlpatterns = patterns(
 )
                               </code>
                             </pre>
+                          </section>
+
+                          <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Rails is RESTful</li>
+                                <li>Django is explicit</li>
+                                <li>Django is unopionated about app structure</li>
+                            </ul>
                           </section>
 
                           <section>
@@ -270,6 +297,29 @@ def post(self, request, *args, **kwargs):
         return self.form_invalid(form)
                               </code>
                             </pre>
+                          </section>
+
+                          <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Django's views have a confusing name</li>
+                                <li>Django's views encapsulate common patterns</li>
+                                <li>Django's views encourage code sharing</li>
+                                <li>Django uses the template pattern</li>
+                                <li>The template pattern can be confusing</li>
+                                <li>Rails controllers are very imperative</li>
+                            </ul>
+                          </section>
+
+
+                          <section>
+                            <h2>Django Forms</h2>
+                            <ol>
+                              <li>preparing and restructuring data ready for rendering</li>
+                              <li>creating HTML forms for the data</li>
+                              <li>receiving and processing submitted forms and data from the client</li>
+                            </ol>
+                              <p>https://docs.djangoproject.com/en/1.7/topics/forms/#django-s-role-in-forms</p>
                           </section>
 
                           <section>
@@ -342,6 +392,15 @@ class ObsceneValidator < ActiveModel::Validator
 end
                               </code>
                             </pre>
+                          </section>
+
+                          <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Django encapsulates user input</li>
+                                <li>Django allow different validations for different user</li>
+                                <li>Django's forms are a place for munging date</li>
+                            </ul>
                           </section>
 
                           <section>
@@ -475,6 +534,25 @@ class JobManager(Manager):
 >>> Job.objects.published()
                               </code>
                             </pre>
+                          </section>
+
+                          <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Django's Managers allow the models to have a cleaner API</li>
+                                <li>Rails' schema is centralized</li>
+                                <li>Django's migrations are an imperfect solution to migration conflicts</li>
+                                <li>Both muddle the difference btw DB and non-DB
+                                level validations</li>
+                            </ul>
+                          </section>
+
+                          <section>
+                            <h2>Final Outrageous Opinions</h2>
+                            <ul>
+                                <li>Django is nicer than Rails</li>
+                                <li>But Ruby is nicer than Python</li>
+                            </ul>
                           </section>
 
                           <section>
