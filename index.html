@@ -40,38 +40,375 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>From Django to Rails</h1>
-					<h3>A Journey from Explict to Implicit</h3>
-					<p>
-						<small>
-                                                  <a href="http://rebecca.meritz.com">Rebecca Meritz</a>
-                                                  /
-                                                  <a href="http://twitter.com/rmeritz">@rmeritz</a>
-                                                </small>
-					</p>
-				</section>
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
+                          <section>
+                            <h1>From Django to Rails</h1>
+                            <h3>A Journey from Explict to Implicit</h3>
+                            <p>
+                              <small>
+                                <a href="http://rebecca.meritz.com">Rebecca Meritz</a>
+                                /
+                                <a href="http://twitter.com/rmeritz">@rmeritz</a>
+                              </small>
+                            </p>
+                          </section>
 
-    var nodes = document.querySelectorAll( selector );
+                          <section>
+                            <img src="form.png" alt-text="Form">
+                          </section>
 
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
+                          <section>
+                            <pre>
+                              <code class="html">
+&lt;form action="/jobs" method="post"&gt;
 
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+  &lt;label for="job_name"&gt;Name&lt;/label&gt;
+  &lt;input type="text" name="job[name]" id="job_name" /&gt;
 
+  &lt;label for="job_description"&gt;Description&lt;/label&gt;
+  &lt;textarea name="job[description]" id="job_description"&gt;
+
+  &lt;input type="submit" value="Create Job" class="button" /&gt;
+&lt;/form&gt;
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>app/views/jobs/_form.html.erb</h3>
+                            <pre>
+                              <code class="html">
+<%= form_for(@job) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, as: :string  %>
+    <%= f.input :description %>
+    <%= f.input :company_name, as: :string %>
+    <%= f.input :url, as: :url %>
+    <%= f.input :start_date, as: :date %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>templates/base/form.html</h3>
+                            <pre>
+                              <code class="html">
+<form action="{% url create_job %}" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="form-inputs">
+        {{ form.as_p }}
+    </div>
+
+    <div class="form-actions">
+        <input type="submit" value="Submit">
+    </div>
+</form>
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+                              config/routes.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+Rails.application.routes.draw do
+  resources :jobs
+  root to: 'jobs#index'
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+                                urls.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.conf.urls import include, patterns
+
+
+urlpatterns = patterns(
+    '',
+    (r'^jobs/', include("skill_and_love.job.urls")),
+)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+job/urls.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.conf.urls import url, patterns
+
+from .views import CreateJobView
+
+
+urlpatterns = patterns(
+    '',
+    url(r'^create/$', CreateJobView.as_view(), name='job_create'),
+)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+app/controllers/jobs_controller.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class JobsController < ApplicationController
+  def create
+    @job = Job.new(job_params)
+    @job.end_date = @job.start_date + 30.days
+
+    if @job.save
+      redirect_to @job, notice: 'Job was successfully created.'
+    else
+      render :new
+    end
+  end
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+job/views.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.views.generic import CreateView
+
+from .models import Job
+from .forms import CreateJobForm
+
+
+class JobCreateView(CreateView):
+    model = Job
+    form_class = CreateJobForm
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+CreateView
+                            </h3>
+                            <pre>
+                              <code class="python">
+def post(self, request, *args, **kwargs):
+    form_class = self.get_form_class()
+    form = self.get_form(form_class)
+    if form.is_valid():
+        return self.form_valid(form)
+    else:
+        return self.form_invalid(form)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+jobs/forms.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from datetime import timedelta
+from django import forms
+from .models import Job
+
+
+class JobCreateForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ["name", "description", "start_date"]
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if self._is_obscene(name):
+            raise forms.ValidationError(
+                'You may not choose an obscene name')
+        return name
+
+    def save(self, *args, **kwargs):
+        kwargs.update({'commit': False})
+        job = super(JobCreateForm, self).save(*args, **kwargs)
+        job.end_date = job.start_date + timedelta(days=30)
+        job.save
+        return job
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+lib/validators/obscene_validator.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class ObseneValidator < ActiveModel::Validator
+  def validate(record)
+    if record.name.obscene?
+      record.errors[:name] << 'No dirty names!'
+    end
+  end
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h2>Models<h2>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code>
+$ bin/rails generate migration CreateJobs
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+db/migrate/20150223155659_create_jobs.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class CreateJobs < ActiveRecord::Migration
+  def self.up
+    create_table :jobs do |t|
+      t.text :name, null: false
+      t.boolean :published, null: false
+      t.timestamps null: false
+    end
+  end
+
+  def self.down
+    drop_table :jobs
+  end
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+                              db/schema.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+create_table "jobs", force: :cascade do |t|
+  t.text     "name",         null: false
+  t.boolean  "published",    null: false
+  t.datetime "created_at",   null: false
+  t.datetime "updated_at",   null: false
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+app/models/job.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class Job < ActiveRecord::Base
+  validates_with ObseneValidator
+  scope :published { where(published: true) }
+end
+
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="ruby">
+>>> Job.find(2)
+>>> Job.all
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+job/models.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db import models
+
+from .managers import JobsManager
+
+
+class Job(models.Model):
+    objects = JobsManager()
+
+    name = models.CharField(max_length=100, null=False)
+    published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="python">
+$ python manage.py makemigrations jobs
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+job/managers.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db.models import Manager
+
+
+class JobManager(Manager):
+    #TODO: write to match publiushed
+    def get_queryset(self):
+        return super(JobManager, self).get_queryset().filter(published=True)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="python">
+
+>>> Job.objects.get(id=2)
+>>> Job.objects.all()
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h1>Fin<h1>
+                          </section>
 			</div>
 
 		</div>
