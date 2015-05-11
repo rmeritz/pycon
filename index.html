@@ -55,7 +55,7 @@
                           </section>
 
                           <section>
-                            <h1>Intro</h1>
+                            <h1>Overview</h1>
                             <ul>
                               <li>Same thing but with different vocab</li>
                               <li>Gain perspective by looking at the differences</li>
@@ -257,7 +257,6 @@ end
                             <ul>
                                 <li>Django is explicit</li>
                                 <li>Django is unopinionated about app structure</li>
-                                <li>Python's explicit imports are great</li>
                                 <li>Rails is RESTful</li>
                             </ul>
                           </section>
@@ -311,7 +310,6 @@ app/controllers/jobs_controller.rb
 class JobsController < ApplicationController
   def create
     @job = Job.new(job_params)
-    @job.end_date = @job.start_date + 30.days
 
     if @job.save
       redirect_to @job, notice: 'Job was successfully created.'
@@ -332,7 +330,6 @@ end
                                 <li>Django uses the template pattern</li>
                                 <li>The template pattern can be confusing</li>
                                 <li>Rails controllers are very imperative</li>
-                                <li>Ruby values readablity <code>30.days</code></li>
                             </ul>
                           </section>
 
@@ -420,8 +417,6 @@ end
                             <ul>
                                 <li>Rails' schema is centralized</li>
                                 <li>Django's migrations are an imperfect solution to migration conflicts</li>
-                                <li>Both muddle the difference btw DB and non-DB
-                                level validations</li>
                             </ul>
                           </section>
 
@@ -429,21 +424,6 @@ end
                             <h2>Managers / ARel<h2>
                           </section>
 
-                          <section>
-                            <h3>
-job/managers.py
-                            </h3>
-                            <pre>
-                              <code class="python">
-from django.db.models import Manager
-
-
-class JobManager(Manager):
-    def published(self):
-        return self.filter(published=True)
-                              </code>
-                            </pre>
-                          </section>
                           <section>
                             <h3>
 job/models.py
@@ -464,14 +444,16 @@ class Job(models.Model):
 
                           <section>
                             <h3>
-app/models/job.rb
+job/managers.py
                             </h3>
                             <pre>
-                              <code class="ruby">
-class Job &lt; ActiveRecord::Base
-  scope :published { where(published: true) }
-end
+                              <code class="python">
+from django.db.models import Manager
 
+
+class JobManager(Manager):
+    def published(self):
+        return self.filter(published=True)
                               </code>
                             </pre>
                           </section>
@@ -483,6 +465,20 @@ end
 &gt;&gt;&gt; Job.objects.get(id=2)
 &gt;&gt;&gt; Job.objects.all()
 &gt;&gt;&gt; Job.objects.published()
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+app/models/job.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+class Job &lt; ActiveRecord::Base
+  scope :published { where(published: true) }
+end
+
                               </code>
                             </pre>
                           </section>
@@ -501,6 +497,7 @@ end
                           <section>
                             <h2>Reflections</h2>
                             <ul>
+                                <li>Rail's scopes clutter the model</li>
                                 <li>Django's Managers allow the models to have a cleaner API</li>
                             </ul>
                           </section>
