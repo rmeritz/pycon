@@ -468,7 +468,7 @@ app/models/job.rb
                             </h3>
                             <pre>
                               <code class="ruby">
-class Job < ActiveRecord::Base
+class Job &lt; ActiveRecord::Base
   scope :published { where(published: true) }
 end
 
@@ -480,9 +480,9 @@ end
                             <pre>
                               <code class="python">
 
->>> Job.objects.get(id=2)
->>> Job.objects.all()
->>> Job.objects.published()
+&gt;&gt;&gt; Job.objects.get(id=2)
+&gt;&gt;&gt; Job.objects.all()
+&gt;&gt;&gt; Job.objects.published()
                               </code>
                             </pre>
                           </section>
@@ -491,9 +491,9 @@ end
                           <section>
                             <pre>
                               <code class="ruby">
->>> Job.find(2)
->>> Job.all
->>> Job.published
+&gt;&gt;&gt; Job.find(2)
+&gt;&gt;&gt; Job.all
+&gt;&gt;&gt; Job.published
                               </code>
                             </pre>
                           </section>
