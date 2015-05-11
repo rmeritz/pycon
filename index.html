@@ -55,6 +55,15 @@
                           </section>
 
                           <section>
+                            <h1>Intro</h1>
+                            <ul>
+                              <li>Same thing but with different vocab</li>
+                              <li>Gain perspective by looking at the differences</li>
+                              <li>Examining them out of the box without extra libraries</li>
+                            </ul>
+                          </section>
+
+                          <section>
                             <img src="form.png" alt-text="Form">
                           </section>
 
@@ -332,6 +341,10 @@ end
                           </section>
 
                           <section>
+                            <h2>Migrations<h2>
+                          </section>
+
+                          <section>
                             <h3>
 job/models.py
                             </h3>
@@ -339,12 +352,8 @@ job/models.py
                               <code class="python">
 from django.db import models
 
-from .managers import JobsManager
-
 
 class Job(models.Model):
-    objects = JobsManager()
-
     name = models.CharField(max_length=100, null=False)
     published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -359,36 +368,9 @@ class Job(models.Model):
 $ python manage.py makemigrations jobs
                               </code>
                             </pre>
-                          </section>
+                         </section>
 
-                          <section>
-                            <h3>
-job/managers.py
-                            </h3>
-                            <pre>
-                              <code class="python">
-from django.db.models import Manager
-
-
-class JobManager(Manager):
-    def published(self):
-        return self.filter(published=True)
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
-                            <pre>
-                              <code class="python">
-
->>> Job.objects.get(id=2)
->>> Job.objects.all()
->>> Job.objects.published()
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
+                           <section>
                             <pre>
                               <code>
 $ bin/rails generate migration CreateJobs
@@ -396,23 +378,21 @@ $ bin/rails generate migration CreateJobs
                             </pre>
                           </section>
 
+
+
                           <section>
                             <h3>
 db/migrate/20150223155659_create_jobs.rb
                             </h3>
                             <pre>
                               <code class="ruby">
-class CreateJobs < ActiveRecord::Migration
-  def self.up
+class CreateJobs &lt; ActiveRecord::Migration
+  def change
     create_table :jobs do |t|
       t.text :name, null: false
       t.boolean :published, null: false
       t.timestamps null: false
     end
-  end
-
-  def self.down
-    drop_table :jobs
   end
 end
                               </code>
@@ -436,19 +416,77 @@ end
                           </section>
 
                           <section>
+                            <h2>Reflections</h2>
+                            <ul>
+                                <li>Rails' schema is centralized</li>
+                                <li>Django's migrations are an imperfect solution to migration conflicts</li>
+                                <li>Both muddle the difference btw DB and non-DB
+                                level validations</li>
+                            </ul>
+                          </section>
+
+                          <section>
+                            <h2>Managers / ARel<h2>
+                          </section>
+
+                          <section>
+                            <h3>
+job/managers.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db.models import Manager
+
+
+class JobManager(Manager):
+    def published(self):
+        return self.filter(published=True)
+                              </code>
+                            </pre>
+                          </section>
+                          <section>
+                            <h3>
+job/models.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db import models
+
+from .managers import JobsManager
+
+
+class Job(models.Model):
+    objects = JobsManager()
+
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
                             <h3>
 app/models/job.rb
                             </h3>
                             <pre>
                               <code class="ruby">
 class Job < ActiveRecord::Base
-  validates_with ObsceneValidator
   scope :published { where(published: true) }
 end
 
                               </code>
                             </pre>
                           </section>
+
+                          <section>
+                            <pre>
+                              <code class="python">
+
+>>> Job.objects.get(id=2)
+>>> Job.objects.all()
+>>> Job.objects.published()
+                              </code>
+                            </pre>
+                          </section>
+
 
                           <section>
                             <pre>
@@ -460,16 +498,15 @@ end
                             </pre>
                           </section>
 
-
                           <section>
                             <h2>Reflections</h2>
                             <ul>
                                 <li>Django's Managers allow the models to have a cleaner API</li>
-                                <li>Rails' schema is centralized</li>
-                                <li>Django's migrations are an imperfect solution to migration conflicts</li>
-                                <li>Both muddle the difference btw DB and non-DB
-                                level validations</li>
                             </ul>
+                          </section>
+
+                          <section>
+                            <h2>Philosophical Differences</h2>
                           </section>
 
                           <section>
@@ -477,7 +514,7 @@ end
                             <ul>
                               <li>Coding Standards</li>
                               <li>Culture of Documentation</li>
-                              <li>Explicate Imports</li>
+                              <li>Explicit Imports</li>
                             </ul>
                           </section>
 
@@ -486,7 +523,7 @@ end
                             <ul>
                               <li>Logging</li>
                               <li>Packaging</li>
-                              <li>Functional Programming Suport</li>
+                              <li>Functional Programming Support</li>
                               <li>Readablity</li>
                             </ul>
                           </section>
