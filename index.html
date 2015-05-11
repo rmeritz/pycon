@@ -65,7 +65,27 @@
                           <section>
                             <pre>
                               <code class="">
+├── urls.py
+│   ├── jobs
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── applicatants
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   └── urls.py
+│   ├── templates
+│   │   ├── index.html
+│   │   └── create_jobs.html
+                              </code>
+                            </pre>
+                          </section>
 
+                          <section>
+                            <pre>
+                              <code class="">
 ├── app
 │   ├── controllers
 │   │   ├── application_controller.rb
@@ -90,27 +110,6 @@
                           </section>
 
                           <section>
-                            <pre>
-                              <code class="">
-├── urls.py
-│   ├── jobs
-│   │   ├── models.py
-│   │   ├── views.py
-│   │   ├── forms.py
-│   │   └── urls.py
-│   ├── applicatants
-│   │   ├── models.py
-│   │   ├── views.py
-│   │   ├── forms.py
-│   │   └── urls.py
-│   ├── templates
-│   │   ├── index.html
-│   │   └── create_jobs.html
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
                             <h2>Reflections</h2>
                             <ul>
                                 <li>Rails is simpler</li>
@@ -121,7 +120,7 @@
                           </section>
 
                           <section>
-                            <h1>Views / Templates </h1>
+                            <h1>Templates / Views </h1>
                           </section>
 
                           <section>
@@ -137,29 +136,6 @@
 
   &lt;input type="submit" value="Create Job" class="button" /&gt;
 &lt;/form&gt;
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
-                            <h3>app/views/jobs/_form.html.erb</h3>
-                            <pre>
-                              <code class="html">
-<%= form_for(@job) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.text_field :name %>
-    <%= f.text_area :description %>
-    <%= f.text_field :company_name %>
-    <%= f.text_field :url %>
-    <%= f.date_field :start_date %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.submit %>
-  </div>
-<% end %>
                               </code>
                             </pre>
                           </section>
@@ -184,29 +160,40 @@
                             </pre>
                           </section>
 
+
+                          <section>
+                            <h3>app/views/jobs/_form.html.erb</h3>
+                            <pre>
+                              <code class="html">
+<%= form_for(@job) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.text_field :name %>
+    <%= f.text_area :description %>
+    <%= f.text_field :company_name %>
+    <%= f.text_field :url %>
+    <%= f.date_field :start_date %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+                              </code>
+                            </pre>
+                          </section>
                           <section>
                             <h2>Reflections</h2>
                             <ul>
                                 <li>Rails is easier for a designer to change</li>
                                 <li>Django autodiscovers sensible form widgets</li>
+                                <li>Django hides FE logic deep within the backend</li>
                             </ul>
                           </section>
 
                           <section>
-                            <h1>Routes / URLconf</h1>
-                          </section>
-
-                          <section>
-                            <h3>
-                              config/routes.rb
-                            </h3>
-                            <pre>
-                              <code class="ruby">
-Rails.application.routes.draw do
-  resources :jobs, only: :create
-end
-                              </code>
-                            </pre>
+                            <h1>URLconf / Routes</h1>
                           </section>
 
                           <section>
@@ -227,9 +214,7 @@ urlpatterns = patterns(
                           </section>
 
                           <section>
-                            <h3>
-job/urls.py
-                            </h3>
+                            <h3> job/urls.py </h3>
                             <pre>
                               <code class="python">
 from django.conf.urls import url, patterns
@@ -246,39 +231,30 @@ urlpatterns = patterns(
                           </section>
 
                           <section>
+                            <h3>
+                              config/routes.rb
+                            </h3>
+                            <pre>
+                              <code class="ruby">
+Rails.application.routes.draw do
+  resources :jobs, only: :create
+end
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
                             <h2>Reflections</h2>
                             <ul>
-                                <li>Rails is RESTful</li>
                                 <li>Django is explicit</li>
                                 <li>Django is unopinionated about app structure</li>
                                 <li>Python's explicit imports are great</li>
+                                <li>Rails is RESTful</li>
                             </ul>
                           </section>
 
                           <section>
-                            <h1>Controllers / Views </h1>
-                          </section>
-
-                          <section>
-                            <h3>
-app/controllers/jobs_controller.rb
-                            </h3>
-                            <pre>
-                              <code class="ruby">
-class JobsController < ApplicationController
-  def create
-    @job = Job.new(job_params)
-    @job.end_date = @job.start_date + 30.days
-
-    if @job.save
-      redirect_to @job, notice: 'Job was successfully created.'
-    else
-      render :new
-    end
-  end
-end
-                              </code>
-                            </pre>
+                            <h1>Views / Controllers</h1>
                           </section>
 
                           <section>
@@ -318,65 +294,6 @@ def post(self, request, *args, **kwargs):
                           </section>
 
                           <section>
-                            <h2>Reflections</h2>
-                            <ul>
-                                <li>Django's views have a confusing name</li>
-                                <li>Django's views encapsulate common patterns</li>
-                                <li>Django's views encourage code sharing</li>
-                                <li>Django uses the template pattern</li>
-                                <li>The template pattern can be confusing</li>
-                                <li>Rails controllers are very imperative</li>
-                                <li>Ruby values readablity <code>30.days</code></li>
-                            </ul>
-                          </section>
-
-                          <section>
-                            <h1>Forms</h1>
-                          </section>
-
-                          <section>
-                            <h2>Django Forms</h2>
-                            <ol>
-                              <li>Preparing and restructuring data ready for rendering</li>
-                              <li>Creating HTML forms for the data</li>
-                              <li>Receiving and processing submitted forms and data from the client</li>
-                            </ol>
-                          </section>
-
-                          <section>
-                            <h3>
-jobs/forms.py
-                            </h3>
-                            <pre>
-                              <code class="python">
-from datetime import timedelta
-from django import forms
-from .models import Job
-
-
-class JobCreateForm(forms.ModelForm):
-    class Meta:
-        model = Job
-        fields = ["name", "description", "start_date"]
-
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
-        if self._is_obscene(name):
-            raise forms.ValidationError(
-                'You may not choose an obscene name')
-        return name
-
-    def save(self, *args, **kwargs):
-        kwargs.update({'commit': False})
-        job = super(JobCreateForm, self).save(*args, **kwargs)
-        job.end_date = job.start_date + timedelta(days=30)
-        job.save
-        return job
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
                             <h3>
 app/controllers/jobs_controller.rb
                             </h3>
@@ -399,33 +316,76 @@ end
                           </section>
 
                           <section>
-                            <h3>
-lib/validators/obscene_validator.rb
-                            </h3>
-                            <pre>
-                              <code class="ruby">
-class ObsceneValidator < ActiveModel::Validator
-  def validate(record)
-    if record.name.obscene?
-      record.errors[:name] << 'No dirty names!'
-    end
-  end
-end
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
                             <h2>Reflections</h2>
                             <ul>
-                                <li>Django encapsulates user input</li>
-                                <li>Django allow different validations for different user</li>
-                                <li>Django's forms are a place for munging data</li>
+                                <li>Django's views encapsulate common patterns</li>
+                                <li>Django's views encourage code sharing</li>
+                                <li>Django uses the template pattern</li>
+                                <li>The template pattern can be confusing</li>
+                                <li>Rails controllers are very imperative</li>
+                                <li>Ruby values readablity <code>30.days</code></li>
                             </ul>
                           </section>
 
                           <section>
                             <h1>Models<h1>
+                          </section>
+
+                          <section>
+                            <h3>
+job/models.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db import models
+
+from .managers import JobsManager
+
+
+class Job(models.Model):
+    objects = JobsManager()
+
+    name = models.CharField(max_length=100, null=False)
+    published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="python">
+$ python manage.py makemigrations jobs
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <h3>
+job/managers.py
+                            </h3>
+                            <pre>
+                              <code class="python">
+from django.db.models import Manager
+
+
+class JobManager(Manager):
+    def published(self):
+        return self.filter(published=True)
+                              </code>
+                            </pre>
+                          </section>
+
+                          <section>
+                            <pre>
+                              <code class="python">
+
+>>> Job.objects.get(id=2)
+>>> Job.objects.all()
+>>> Job.objects.published()
+                              </code>
+                            </pre>
                           </section>
 
                           <section>
@@ -500,62 +460,6 @@ end
                             </pre>
                           </section>
 
-                          <section>
-                            <h3>
-job/models.py
-                            </h3>
-                            <pre>
-                              <code class="python">
-from django.db import models
-
-from .managers import JobsManager
-
-
-class Job(models.Model):
-    objects = JobsManager()
-
-    name = models.CharField(max_length=100, null=False)
-    published = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
-                            <pre>
-                              <code class="python">
-$ python manage.py makemigrations jobs
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
-                            <h3>
-job/managers.py
-                            </h3>
-                            <pre>
-                              <code class="python">
-from django.db.models import Manager
-
-
-class JobManager(Manager):
-    def published(self):
-        return self.filter(published=True)
-                              </code>
-                            </pre>
-                          </section>
-
-                          <section>
-                            <pre>
-                              <code class="python">
-
->>> Job.objects.get(id=2)
->>> Job.objects.all()
->>> Job.objects.published()
-                              </code>
-                            </pre>
-                          </section>
 
                           <section>
                             <h2>Reflections</h2>
@@ -569,10 +473,21 @@ class JobManager(Manager):
                           </section>
 
                           <section>
-                            <h2>Final Outrageous Opinions</h2>
+                            <h2>Django's Upsides<h2>
                             <ul>
-                                <li>Django is nicer than Rails</li>
-                                <li>But Ruby is nicer than Python</li>
+                              <li>Coding Standards</li>
+                              <li>Culture of Documentation</li>
+                              <li>Explicate Imports</li>
+                            </ul>
+                          </section>
+
+                          <section>
+                            <h2>Rail's Upsides<h2>
+                            <ul>
+                              <li>Logging</li>
+                              <li>Packaging</li>
+                              <li>Functional Programming Suport</li>
+                              <li>Readablity</li>
                             </ul>
                           </section>
 

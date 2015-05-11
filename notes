@@ -59,6 +59,9 @@ Positive things to take from Rails/Ruby:
 ----------------------------------------
 (Focus more on these when talking to Python people.)
 
+Out of the box simplity // Integration...
+
+
 1. Logging
 - the logging defaults are amazing all the different log files
 - the logging defaults for models are great
